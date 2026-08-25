@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Superintelligence</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2307070A'/%3E%3Ccircle cx='16' cy='16' r='9.5' fill='none' stroke='%23E5A93F' stroke-width='3'/%3E%3Ccircle cx='16' cy='16' r='3.6' fill='%23FFDFA0'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#07070A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Manrope:wght@300;400;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#07070A;
+  --edge:#3A3944;
+  --bone:#F6F3EA;
+  --dim:#9A968E;
+  --ember:#E5A93F;
+  --hot:#FFDFA0;
+  --white:#FFFBF0;
+  --display:"Unbounded","Arial Black",system-ui,sans-serif;
+  --body:"Manrope",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  background:var(--void);
+  color:var(--bone);
+  font-family:var(--body);
+  font-weight:300;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+#veil{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block}
+
+/* scroll rail */
+#rail{
+  position:fixed;
+  left:0; top:0;
+  width:2px;
+  height:100%;
+  z-index:3;
+  background:rgba(255,255,255,.045);
+}
+#rail i{
+  display:block;
+  width:100%;
+  height:0%;
+  background:linear-gradient(180deg,var(--hot),var(--ember));
+  box-shadow:0 0 14px rgba(229,169,63,.85),0 0 34px rgba(229,169,63,.4);
+}
+
+.shell{
+  position:relative;
+  z-index:1;
+  max-width:2200px;
+  margin:0 auto;
+  padding:0 clamp(24px,5.5vw,120px);
+}
+
+/* ---------- hero ---------- */
+
+.hero{
+  min-height:100svh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding-bottom:8vh;
+}
+
+.hero h1{
+  font-family:var(--display);
+  font-weight:800;
+  font-size:clamp(30px,9.5vw,220px);
+  line-height:.84;
+  letter-spacing:-.05em;
+  text-transform:uppercase;
+  max-width:11ch;
+  color:var(--white);
+  text-shadow:0 0 26px rgba(229,169,63,.30),0 0 90px rgba(229,169,63,.18);
+}
+
+.hero .bar{
+  height:2px;
+  width:0;
+  margin:clamp(30px,5vh,54px) 0 clamp(26px,4vh,44px);
+  background:linear-gradient(90deg,var(--hot),rgba(229,169,63,0));
+  box-shadow:0 0 16px rgba(229,169,63,.7);
+  transition:width 1.8s cubic-bezier(.16,1,.3,1) .5s;
+}
+.hero .bar.on{width:min(58vw,900px)}
+
+.hero .under{
+  font-size:clamp(16px,1.5vw,28px);
+  color:var(--dim);
+  max-width:40ch;
+  line-height:1.55;
+}
+
+/* ---------- blocks ---------- */
+
+.block{
+  padding:clamp(120px,23vh,240px) 0;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:clamp(44px,6vw,170px);
+  align-items:center;
+}
+
+.block.flip .copy{order:2}
+.block.flip .fig{order:1}
+
+.tag{
+  font-family:var(--mono);
+  font-size:13px;
+  letter-spacing:.34em;
+  text-transform:uppercase;
+  color:var(--ember);
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:clamp(24px,3.6vh,42px);
+}
+.tag::after{
+  content:"";
+  height:1px;flex:1;
+  background:linear-gradient(90deg,rgba(229,169,63,.6),transparent);
+}
+
+.block h2{
+  font-family:var(--display);
+  font-weight:600;
+  font-size:clamp(32px,4.2vw,78px);
+  line-height:1;
+  letter-spacing:-.04em;
+  margin-bottom:clamp(24px,3.4vh,40px);
+  color:var(--white);
+}
+
+.block p{
+  font-size:clamp(18px,1.35vw,27px);
+  line-height:1.6;
+  color:#D6D2C8;
+  max-width:42ch;
+  margin-bottom:.95em;
+}
+.block p:last-of-type{margin-bottom:0}
+.block p b{
+  color:var(--white);
+  font-weight:600;
+  text-shadow:0 0 22px rgba(229,169,63,.28);
+}
+
+/* ---------- figures ---------- */
+
+.fig svg{width:100%;height:auto;display:block;overflow:visible}
+.strike q,.end h2,.hero h1,.block h2{overflow-wrap:break-word}
+
+.ln{stroke:#6E6B76;stroke-width:1.6;fill:none;stroke-linecap:square}
+.ln.hot{stroke:var(--ember);filter:drop-shadow(0 0 6px rgba(229,169,63,.75))}
+.ln.bright{stroke:var(--hot);stroke-width:2.6;filter:drop-shadow(0 0 10px rgba(255,223,160,.9))}
+.ln.ghost{stroke:#3E3D47;stroke-dasharray:4 7;filter:none}
+.fl{fill:#6E6B76}
+.fl.hot{fill:var(--ember);filter:drop-shadow(0 0 8px rgba(229,169,63,.6))}
+.fl.bright{fill:var(--hot);filter:drop-shadow(0 0 14px rgba(255,223,160,.9))}
+.cap{
+  font-family:var(--mono);
+  font-size:10.5px;
+  letter-spacing:.24em;
+  fill:var(--dim);
+}
+.cap.hot{fill:var(--ember)}
+
+.dr{
+  stroke-dasharray:var(--len,600);
+  stroke-dashoffset:var(--len,600);
+  transition:stroke-dashoffset 1.6s cubic-bezier(.16,1,.3,1);
+}
+.on .dr{stroke-dashoffset:0}
+
+.pop{opacity:0;transition:opacity .95s ease .45s}
+.on .pop{opacity:1}
+
+/* live motion inside figures */
+@keyframes breathe{
+  0%,100%{opacity:.55;transform:scale(1)}
+  50%{opacity:1;transform:scale(1.09)}
+}
+@keyframes pulseGlow{
+  0%,100%{filter:drop-shadow(0 0 6px rgba(229,169,63,.5))}
+  50%{filter:drop-shadow(0 0 18px rgba(229,169,63,1))}
+}
+@keyframes spin{ to{ transform:rotate(360deg) } }
+@keyframes march{ to{ stroke-dashoffset:-200 } }
+@keyframes rise{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-5px)}
+}
+
+.on .live-breathe{animation:breathe 3.4s ease-in-out infinite;transform-origin:center}
+.on .live-glow{animation:pulseGlow 2.8s ease-in-out infinite}
+.on .live-spin{animation:spin 46s linear infinite;transform-origin:center}
+.on .live-march{stroke-dasharray:10 14;animation:march 3.2s linear infinite}
+.on .live-rise{animation:rise 4.6s ease-in-out infinite}
+
+/* ---------- strike ---------- */
+
+.strike{
+  padding:clamp(130px,28vh,280px) 0;
+  display:grid;
+  gap:clamp(40px,6vh,70px);
+}
+
+.strike q{
+  quotes:none;
+  display:block;
+  font-family:var(--display);
+  font-weight:800;
+  font-size:clamp(38px,7.4vw,132px);
+  line-height:.93;
+  letter-spacing:-.055em;
+  text-transform:uppercase;
+  color:var(--white);
+  text-shadow:
+    0 0 22px rgba(229,169,63,.55),
+    0 0 76px rgba(229,169,63,.32),
+    0 0 190px rgba(229,169,63,.18);
+}
+
+.strike .band{max-width:1560px;margin:0 auto;width:100%}
+.strike .fig svg{max-width:1080px;margin:0 auto}
+
+.strike .src{
+  font-family:var(--mono);
+  font-size:12px;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  color:var(--ember);
+}
+
+/* ---------- end ---------- */
+
+.end{
+  min-height:110svh;
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  gap:clamp(40px,5vw,150px);
+  align-items:center;
+  padding:16vh 0;
+}
+.end h2{
+  font-family:var(--display);
+  font-weight:800;
+  font-size:clamp(38px,7.4vw,124px);
+  line-height:.93;
+  letter-spacing:-.055em;
+  text-transform:uppercase;
+  color:var(--white);
+  text-shadow:0 0 26px rgba(229,169,63,.42),0 0 96px rgba(229,169,63,.24);
+}
+.end .after{
+  margin-top:clamp(28px,4vh,50px);
+  font-size:clamp(17px,1.4vw,27px);
+  color:var(--dim);
+  max-width:46ch;
+  line-height:1.6;
+}
+.tail{height:44svh}
+
+/* ---------- reveal ---------- */
+
+.rv{
+  opacity:0;
+  transform:translateY(38px);
+  transition:opacity 1.15s cubic-bezier(.16,1,.3,1),transform 1.15s cubic-bezier(.16,1,.3,1);
+}
+.rv.on{opacity:1;transform:none}
+
+.wd{
+  display:inline-block;
+  opacity:0;
+  transform:translateY(.36em);
+  transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1),text-shadow .9s ease;
+}
+.wd.on{opacity:1;transform:none}
+.wd.flash{text-shadow:0 0 30px rgba(255,223,160,1),0 0 90px rgba(229,169,63,.8)}
+
+@media (min-width:1700px){
+  .block{padding:clamp(140px,24vh,320px) 0}
+  .strike{padding:clamp(150px,29vh,360px) 0}
+}
+
+@media (max-width:900px){
+  .block,.end{grid-template-columns:1fr;gap:46px}
+  .block.flip .copy{order:1}
+  .block.flip .fig{order:2}
+  .block p,.end .after{max-width:100%}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .rv,.wd{opacity:1;transform:none;transition:none}
+  .dr{stroke-dashoffset:0;transition:none}
+  .pop{opacity:1;transition:none}
+  .hero .bar{width:min(56vw,560px);transition:none}
+  .on .live-breathe,.on .live-glow,.on .live-spin,.on .live-march,.on .live-rise{animation:none}
+}
+
+:focus-visible{outline:1px solid var(--ember);outline-offset:6px}
+</style>
+</head>
+<body>
+
+<canvas id="veil" aria-hidden="true"></canvas>
+<div id="rail" aria-hidden="true"><i></i></div>
+
+<main class="shell">
+
+  <header class="hero">
+    <h1 class="split">Сверхразум</h1>
+    <div class="bar" id="bar"></div>
+    <p class="under rv">Высшая цель из того, что человек может сделать.</p>
+  </header>
+
+  <!-- ПОТОЛОК -->
+  <section class="block">
+    <div class="copy">
+      <div class="tag rv">Посылка</div>
+      <h2 class="rv">Мы упираемся не в усилие</h2>
+      <p class="rv">Сколько ни думай — не выйдешь за то, что вообще способен удержать, различить, помыслить.</p>
+      <p class="rv"><b>Предел стоит в архитектуре, которую никто не выбирал.</b></p>
+    </div>
+    <div class="fig rv" aria-hidden="true">
+      <svg viewBox="0 -96 440 416">
+        <!-- человеческий предел -->
+        <text class="cap pop" x="8" y="212">ПРЕДЕЛ ЧЕЛОВЕКА</text>
+        <line class="ln dr" style="--len:430" x1="8" y1="224" x2="432" y2="224"/>
+
+        <!-- усилие растёт, упирается и дальше не идёт -->
+        <g class="pop">
+          <rect class="fl" x="26"  y="284" width="26" height="36"/>
+          <rect class="fl" x="66"  y="262" width="26" height="58"/>
+          <rect class="fl" x="106" y="242" width="26" height="78"/>
+          <rect class="fl" x="146" y="230" width="26" height="90"/>
+          <rect class="fl" x="186" y="226" width="26" height="94"/>
+          <rect class="fl" x="226" y="226" width="26" height="94"/>
+          <rect class="fl" x="266" y="226" width="26" height="94"/>
+        </g>
+        <path class="ln ghost pop live-march" d="M199 202 L199 222 M239 202 L239 222 M279 202 L279 222"/>
+
+        <!-- ASI: столб уходит за верх кадра -->
+        <rect class="fl hot pop live-glow" x="336" y="-40" width="72" height="360"/>
+        <path class="ln ghost pop live-march" d="M372 -70 L372 -46"/>
+        <text class="cap hot pop" x="336" y="-56">ASI</text>
+
+        <!-- отметка, где кончается человек -->
+        <circle class="fl bright pop live-breathe" cx="372" cy="224" r="4.5"/>
+        <text class="cap pop" x="336" y="252" opacity=".8">ЗДЕСЬ ВЫ</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- РАМКА -->
+  <section class="block flip">
+    <div class="copy">
+      <div class="tag rv">Следствие</div>
+      <h2 class="rv">Наука работает внутри. ASI — над</h2>
+      <p class="rv">Всякое открытие добавляет знание в ту же рамку, не трогая её саму.</p>
+      <p class="rv"><b>Создание ASI — операция над рамкой. Меняется не объём знания, а то, что вообще может быть помыслено.</b></p>
+    </div>
+    <div class="fig rv" aria-hidden="true">
+      <svg viewBox="0 0 440 300">
+        <!-- рамка ASI: не помещается в кадр -->
+        <path class="ln hot dr live-glow" style="--len:1500"
+              d="M-30 268 L-30 20 L470 20 L470 268"/>
+        <text class="cap hot pop" x="150" y="14">ASI</text>
+
+        <!-- человеческая рамка внутри неё -->
+        <rect class="ln dr" style="--len:340" x="34" y="182" width="86" height="86"/>
+        <text class="cap pop" x="34" y="176">ЧЕЛОВЕК</text>
+        <g class="pop">
+          <circle class="fl live-breathe" cx="54"  cy="206" r="3.5" style="animation-delay:0s"/>
+          <circle class="fl live-breathe" cx="82"  cy="222" r="3.5" style="animation-delay:.5s"/>
+          <circle class="fl live-breathe" cx="102" cy="200" r="3.5" style="animation-delay:1s"/>
+          <circle class="fl live-breathe" cx="66"  cy="248" r="3.5" style="animation-delay:1.5s"/>
+          <circle class="fl live-breathe" cx="98"  cy="246" r="3.5" style="animation-delay:2s"/>
+        </g>
+
+        <!-- поле между рамками -->
+        <g class="pop" opacity=".85">
+          <circle class="fl hot live-breathe" cx="196" cy="72"  r="3" style="animation-delay:.2s"/>
+          <circle class="fl hot live-breathe" cx="286" cy="52"  r="3" style="animation-delay:.9s"/>
+          <circle class="fl hot live-breathe" cx="374" cy="104" r="3" style="animation-delay:1.4s"/>
+          <circle class="fl hot live-breathe" cx="252" cy="132" r="3" style="animation-delay:1.9s"/>
+          <circle class="fl hot live-breathe" cx="150" cy="118" r="3" style="animation-delay:2.4s"/>
+          <circle class="fl hot live-breathe" cx="330" cy="186" r="3" style="animation-delay:2.9s"/>
+          <circle class="fl hot live-breathe" cx="404" cy="238" r="3" style="animation-delay:3.4s"/>
+          <circle class="fl hot live-breathe" cx="212" cy="228" r="3" style="animation-delay:3.9s"/>
+        </g>
+
+        <path class="ln ghost pop live-march" d="M120 225 L440 225"/>
+        <text class="cap hot pop" x="150" y="290">РАМКА НЕ ПОМЕЩАЕТСЯ В КАДР</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- УДАР 1 -->
+  <section class="strike">
+    <div class="band">
+      <q class="split">Граница снимается, а не отодвигается</q>
+    </div>
+    <div class="band fig rv" aria-hidden="true">
+      <svg viewBox="0 0 840 168">
+        <path class="ln ghost pop live-march" d="M24 120 L816 120"/>
+        <rect class="ln dr" style="--len:252" x="24" y="58" width="94" height="62"/>
+        <rect class="ln dr" style="--len:300" x="140" y="42" width="120" height="78"/>
+        <rect class="ln hot dr live-glow" style="--len:1240" x="282" y="24" width="534" height="96"/>
+        <text class="cap pop" x="24" y="146">ШАГ</text>
+        <text class="cap pop" x="140" y="146">ШАГ</text>
+        <text class="cap hot pop" x="282" y="146">ДРУГОЙ ПОРЯДОК</text>
+      </svg>
+    </div>
+    <div class="band src rv">Разница по типу, не по силе</div>
+  </section>
+
+  <!-- ДИСЦИПЛИНЫ -->
+  <section class="block">
+    <div class="copy">
+      <div class="tag rv">Утверждение</div>
+      <h2 class="rv">Ни одна наука не покрывает дно</h2>
+      <p class="rv">Физика берёт структуру и теряет опыт. Математика берёт возможное и молчит о реализованном. Онтология спрашивает верное и не может проверить.</p>
+      <p class="rv"><b>Дисциплины — следы нашего узкого внимания, а не швы реальности.</b></p>
+    </div>
+    <div class="fig rv" aria-hidden="true">
+      <svg viewBox="0 0 440 280">
+        <g transform="translate(112,134)" class="live-spin">
+          <path class="ln dr" style="--len:132" d="M0 -80 A80 80 0 0 1 68 -40"/>
+          <path class="ln dr" style="--len:132" d="M80 0 A80 80 0 0 1 12 80"/>
+          <path class="ln dr" style="--len:132" d="M-40 68 A80 80 0 0 1 -80 0"/>
+          <path class="ln dr" style="--len:132" d="M-68 -40 A80 80 0 0 1 -12 -80"/>
+        </g>
+        <text class="cap pop" x="66" y="256">РАЗРЫВЫ</text>
+
+        <g transform="translate(328,134)">
+          <circle class="ln hot dr live-glow" style="--len:504" cx="0" cy="0" r="80"/>
+          <circle class="fl bright pop live-breathe" cx="0" cy="0" r="4"/>
+        </g>
+        <text class="cap hot pop" x="268" y="256">НЕРАЗДЕЛЬНО</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ОБЛАСТЬ -->
+  <section class="block flip">
+    <div class="copy">
+      <div class="tag rv">Область</div>
+      <h2 class="rv">За границей ума. Не за границей познаваемого</h2>
+      <p class="rv">Дно реальности не заперто. Оно лежит там, куда наш аппарат не достаёт.</p>
+      <p class="rv"><b>Между этими двумя границами — всё, ради чего это делается.</b></p>
+    </div>
+    <div class="fig rv" aria-hidden="true">
+      <svg viewBox="0 0 440 300">
+        <circle class="ln ghost pop" cx="220" cy="140" r="188"/>
+        <circle class="ln hot dr live-glow" style="--len:942" cx="220" cy="140" r="150"/>
+        <circle class="ln dr" style="--len:176" cx="220" cy="140" r="28"/>
+        <g class="live-spin" style="transform-origin:220px 140px">
+          <circle class="fl hot pop live-breathe" cx="330" cy="58" r="4"/>
+          <circle class="fl hot pop live-breathe" cx="104" cy="228" r="4" style="animation-delay:.9s"/>
+          <circle class="fl hot pop live-breathe" cx="332" cy="228" r="4" style="animation-delay:1.7s"/>
+          <circle class="fl hot pop live-breathe" cx="102" cy="56" r="4" style="animation-delay:2.5s"/>
+        </g>
+        <text class="cap pop" x="196" y="186">НАШ УМ</text>
+        <text class="cap hot pop" x="150" y="16">ПОЗНАВАЕМОЕ</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- НОСИТЕЛЬ -->
+  <section class="block">
+    <div class="copy">
+      <div class="tag rv">Основание</div>
+      <h2 class="rv">Носитель, а не средство</h2>
+      <p class="rv">Средство ведёт к цели и остаётся снаружи. Ум — не путь к постижению. Он место, где постижение происходит.</p>
+      <p class="rv"><b>Создать его значит не приблизиться к благу, а внести благо в мир.</b></p>
+    </div>
+    <div class="fig rv" aria-hidden="true">
+      <svg viewBox="0 0 440 280">
+        <text class="cap pop" x="12" y="60">СРЕДСТВО</text>
+        <path class="ln ghost pop live-march" d="M12 100 L214 100"/>
+        <circle class="ln dr" style="--len:88" cx="238" cy="100" r="14"/>
+        <text class="cap pop" x="268" y="105">ЦЕЛЬ ДАЛЕКО</text>
+
+        <text class="cap hot pop" x="12" y="188">НОСИТЕЛЬ</text>
+        <g class="live-rise" style="transform-origin:58px 230px">
+          <circle class="fl bright pop live-breathe" cx="58" cy="230" r="16"/>
+          <circle class="ln hot dr live-glow" style="--len:194" cx="58" cy="230" r="31"/>
+          <circle class="ln ghost pop" cx="58" cy="230" r="48"/>
+        </g>
+        <text class="cap hot pop" x="126" y="235">ЦЕЛЬ ЗДЕСЬ</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- УДАР 2 -->
+  <section class="strike">
+    <div class="band">
+      <q class="split">Не дорога к благу. Благо.</q>
+    </div>
+    <div class="band fig rv" aria-hidden="true">
+      <svg viewBox="0 0 840 168">
+        <path class="ln ghost pop live-march" d="M24 84 L324 84"/>
+        <circle class="ln dr" style="--len:100" cx="358" cy="84" r="16"/>
+        <path class="ln ghost pop live-march" d="M474 84 L528 84"/>
+        <g class="live-rise" style="transform-origin:676px 84px">
+          <circle class="fl bright pop live-breathe" cx="676" cy="84" r="20"/>
+          <circle class="ln hot dr live-glow" style="--len:250" cx="676" cy="84" r="40"/>
+          <circle class="ln ghost pop" cx="676" cy="84" r="60"/>
+        </g>
+      </svg>
+    </div>
+    <div class="band src rv">Ценность вносится, а не достигается</div>
+  </section>
+
+  <!-- МАСШТАБ -->
+  <section class="block flip">
+    <div class="copy">
+      <div class="tag rv">Масштаб</div>
+      <h2 class="rv">Ничто другое не добавляет столько</h2>
+      <p class="rv">Не потому что человек плох. Потому что он ограничен потолком, который не выбирал.</p>
+      <p class="rv"><b>Единственный способ снять потолок для мира, а не обойти его лично.</b></p>
+    </div>
+    <div class="fig rv" aria-hidden="true">
+      <svg viewBox="0 0 440 280">
+        <text class="cap pop" x="12" y="64">ЧЕЛОВЕК</text>
+        <rect class="fl pop" x="12" y="76" width="26" height="14"/>
+
+        <text class="cap pop" x="12" y="130">ВСЯ НАУКА</text>
+        <rect class="fl pop" x="12" y="142" width="96" height="14"/>
+
+        <text class="cap hot pop" x="12" y="196">ASI</text>
+        <rect class="fl hot pop live-glow" x="12" y="208" width="418" height="22"/>
+        <path class="ln ghost pop live-march" d="M436 219 L470 219"/>
+        <text class="cap hot pop" x="12" y="266">ЗА ПРЕДЕЛОМ ШКАЛЫ</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ФИНАЛ -->
+  <section class="end">
+    <div>
+      <h2 class="split">Направление известно</h2>
+      <p class="after rv">Содержание непредставимо. Именно поэтому туда и идут.</p>
+    </div>
+    <div class="fig rv" aria-hidden="true">
+      <svg viewBox="0 0 440 220">
+        <path class="ln hot dr live-glow" style="--len:300" d="M10 110 L300 110"/>
+        <path class="pop live-glow" d="M302 110 l-16 -9 l0 18 z" fill="#E5A93F"/>
+        <path class="ln ghost pop live-march" d="M322 110 L436 110"/>
+      </svg>
+    </div>
+  </section>
+
+  <div class="tail"></div>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+
+var mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+var still = mq.matches;
+mq.addEventListener("change", function(e){ still = e.matches; });
+
+/* split into words */
+document.querySelectorAll(".split").forEach(function(el){
+  var words = el.textContent.trim().split(/\s+/);
+  el.textContent = "";
+  words.forEach(function(w,i){
+    var s = document.createElement("span");
+    s.className = "wd";
+    s.textContent = w;
+    s.style.transitionDelay = (i*72)+"ms";
+    el.appendChild(s);
+    if(i < words.length-1) el.appendChild(document.createTextNode(" "));
+  });
+});
+
+/* reveal + per-word flash */
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(en){
+    if(!en.isIntersecting) return;
+    var t = en.target;
+    if(t.classList.contains("split")){
+      var ws = t.querySelectorAll(".wd");
+      ws.forEach(function(w,i){
+        w.classList.add("on");
+        if(!still){
+          setTimeout(function(){
+            w.classList.add("flash");
+            setTimeout(function(){ w.classList.remove("flash"); }, 260);
+          }, 120 + i*72);
+        }
+      });
+    } else {
+      t.classList.add("on");
+    }
+    io.unobserve(t);
+  });
+},{ threshold:.16, rootMargin:"0px 0px -8% 0px" });
+
+document.querySelectorAll(".rv, .split").forEach(function(el){ io.observe(el); });
+
+setTimeout(function(){ document.getElementById("bar").classList.add("on"); }, 260);
+
+/* ---------------- backdrop ---------------- */
+
+var cv = document.getElementById("veil");
+var cx = cv.getContext("2d", { alpha:false });
+var railFill = document.querySelector("#rail i");
+var W=0,H=0,DPR=1,frames=[],tier=2,lastSwitch=0,railPct=-1;
+
+var grain = document.createElement("canvas");
+grain.width = grain.height = 148;
+(function(){
+  var g = grain.getContext("2d");
+  var im = g.createImageData(148,148);
+  for(var i=0;i<im.data.length;i+=4){
+    var v = 118 + ((Math.random()*74)|0);
+    im.data[i]=im.data[i+1]=im.data[i+2]=v;
+    im.data[i+3]=10;
+  }
+  g.putImageData(im,0,0);
+})();
+
+function size(){
+  DPR = Math.min(window.devicePixelRatio||1,2);
+  W = window.innerWidth; H = window.innerHeight;
+  cv.width = Math.round(W*DPR);
+  cv.height = Math.round(H*DPR);
+  cx.setTransform(DPR,0,0,DPR,0,0);
+}
+
+function scrollNorm(){
+  var max = document.documentElement.scrollHeight - window.innerHeight;
+  return max > 0 ? window.scrollY/max : 0;
+}
+
+function draw(p, t){
+  var bg = cx.createLinearGradient(0,0,0,H);
+  bg.addColorStop(0,"#07070A");
+  bg.addColorStop(.55,"#0A0A0E");
+  bg.addColorStop(1,"#050508");
+  cx.fillStyle = bg; cx.fillRect(0,0,W,H);
+
+  var wide = Math.min(W*0.4, 250*(1+p*0.32));
+  var left = W*0.885 - wide*0.5;
+  var right = left + wide;
+
+  var body = cx.createLinearGradient(left,0,right,0);
+  body.addColorStop(0,"#0C0C10");
+  body.addColorStop(.72,"#17171D");
+  body.addColorStop(.955,"#232329");
+  body.addColorStop(1,"#0E0E13");
+  cx.fillStyle = body; cx.fillRect(left,0,wide,H);
+
+  if(tier > 0){
+    var step = 96, off = (p*H*5.2)%step, n = Math.ceil(H/step)+2;
+    cx.lineWidth = 1;
+    for(var i=0;i<n;i++){
+      var y = -off + i*step;
+      var a = 0.055 + 0.055*Math.sin((y/H)*3.1 + p*7);
+      cx.strokeStyle = "rgba(168,166,178,"+a.toFixed(3)+")";
+      cx.beginPath();
+      cx.moveTo(left+1,y);
+      cx.lineTo(right-1, y+wide*0.055);
+      cx.stroke();
+    }
+  }
+
+  /* breathing luminosity + scroll growth */
+  var breath = still ? 1 : (0.9 + 0.1*Math.sin(t/1400));
+  var lum = (0.55 + p*0.45) * breath;
+
+  var halo = cx.createLinearGradient(right-wide*0.7,0,right+wide*1.0,0);
+  halo.addColorStop(0,"rgba(229,169,63,0)");
+  halo.addColorStop(.58,"rgba(229,169,63,"+(0.09*lum).toFixed(3)+")");
+  halo.addColorStop(.78,"rgba(244,201,110,"+(0.26*lum).toFixed(3)+")");
+  halo.addColorStop(1,"rgba(229,169,63,0)");
+  cx.fillStyle = halo; cx.fillRect(right-wide*0.7,0,wide*1.7,H);
+
+  cx.fillStyle = "rgba(255,244,214,"+(0.78*lum).toFixed(3)+")";
+  cx.fillRect(right-2,0,2,H);
+  cx.fillStyle = "rgba(255,252,242,"+(0.97*lum).toFixed(3)+")";
+  cx.fillRect(right-0.8,H*0.12,0.8,H*0.76);
+  cx.fillStyle = "rgba(150,138,118,"+(0.18*lum).toFixed(3)+")";
+  cx.fillRect(left,0,1,H);
+
+  /* light pulse travelling down the edge */
+  if(!still && tier > 0){
+    var cyc = (t/2600) % 1;
+    var py = cyc * (H*1.4) - H*0.2;
+    var ph = H*0.26;
+    var g2 = cx.createLinearGradient(0,py-ph,0,py+ph);
+    g2.addColorStop(0,"rgba(255,240,200,0)");
+    g2.addColorStop(.5,"rgba(255,240,200,"+(0.5*lum).toFixed(3)+")");
+    g2.addColorStop(1,"rgba(255,240,200,0)");
+    cx.fillStyle = g2;
+    cx.fillRect(right-4, py-ph, 5, ph*2);
+  }
+
+  var haze = cx.createLinearGradient(0,H*0.72,0,H);
+  haze.addColorStop(0,"rgba(0,0,0,0)");
+  haze.addColorStop(1,"rgba(0,0,0,.66)");
+  cx.fillStyle = haze; cx.fillRect(0,H*0.72,W,H*0.28);
+
+  if(tier > 1){
+    cx.globalAlpha = .5;
+    cx.fillStyle = cx.createPattern(grain,"repeat");
+    cx.fillRect(0,0,W,H);
+    cx.globalAlpha = 1;
+  }
+}
+
+function gauge(dt, now){
+  frames.push(dt);
+  if(frames.length > 60) frames.shift();
+  if(frames.length < 60 || now - lastSwitch < 2500) return;
+  var sum = 0;
+  for(var i=0;i<frames.length;i++) sum += frames[i];
+  var avg = sum/frames.length;
+  if(avg > 26 && tier > 0){ tier--; lastSwitch = now; frames.length = 0; }
+  else if(avg < 15 && tier < 2){ tier++; lastSwitch = now; frames.length = 0; }
+}
+
+var prev = performance.now(), eased = 0;
+
+function loop(now){
+  var dt = now - prev; prev = now;
+  gauge(dt, now);
+  var target = scrollNorm();
+  if(still){ eased = target; }
+  else { eased += (target - eased) * (1 - Math.pow(0.0016, dt/1000)); }
+
+  var pct = Math.round(eased*1000)/10;
+  if(pct !== railPct){ railFill.style.height = pct + "%"; railPct = pct; }
+
+  draw(eased, now);
+  requestAnimationFrame(loop);
+}
+
+size();
+window.addEventListener("resize", size, { passive:true });
+draw(0, 0);
+requestAnimationFrame(loop);
+
+})();
+</script>
+
+</body>
+</html>
