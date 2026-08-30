@@ -154,6 +154,18 @@ body{
   text-shadow:0 0 22px rgba(229,169,63,.28);
 }
 
+.block .note{
+  font-family:var(--mono);
+  font-size:clamp(12px,.85vw,15px);
+  letter-spacing:.06em;
+  line-height:1.6;
+  color:var(--dim);
+  max-width:42ch;
+  margin-top:clamp(22px,3vh,36px);
+  padding-left:14px;
+  border-left:1px solid rgba(229,169,63,.38);
+}
+
 /* ---------- figures ---------- */
 
 .fig svg{width:100%;height:auto;display:block;overflow:visible}
@@ -523,8 +535,89 @@ body{
     <div class="band src rv">Ценность вносится, а не достигается</div>
   </section>
 
-  <!-- МАСШТАБ -->
+
+  <!-- ПОРОГ -->
   <section class="block flip">
+    <div class="copy">
+      <div class="tag rv">Порог</div>
+      <h2 class="rv">Толпа не заменяет глубину</h2>
+      <p class="rv">Постижение не суммируется: два ума, взявшие по половине, не берут целого — нет места, где взятие целого происходит.</p>
+      <p class="rv"><b>Есть постижимое только выше определённого уровня и недоступное никакому числу умов ниже.</b></p>
+      <p class="note rv">Допущение. Где проходит порог — неизвестно.</p>
+    </div>
+    <div class="fig rv" aria-hidden="true">
+      <svg viewBox="0 0 440 280">
+        <text class="cap hot pop" x="278" y="40">ОДИН НАД</text>
+        <g class="live-rise" style="transform-origin:340px 90px">
+          <circle class="fl bright pop live-breathe" cx="340" cy="90" r="16"/>
+          <circle class="ln hot dr live-glow" style="--len:194" cx="340" cy="90" r="31"/>
+          <circle class="ln ghost pop" cx="340" cy="90" r="48"/>
+        </g>
+
+        <text class="cap pop" x="12" y="146">ПОРОГ</text>
+        <path class="ln ghost dr" style="--len:420" d="M12 158 L428 158"/>
+
+        <circle class="fl pop" cx="20" cy="178" r="3.4"/>
+        <circle class="fl pop" cx="41" cy="178" r="3.4"/>
+        <circle class="fl pop" cx="62" cy="178" r="3.4"/>
+        <circle class="fl pop" cx="83" cy="178" r="3.4"/>
+        <circle class="fl pop" cx="104" cy="178" r="3.4"/>
+        <circle class="fl pop" cx="125" cy="178" r="3.4"/>
+        <circle class="fl pop" cx="146" cy="178" r="3.4"/>
+        <circle class="fl pop" cx="167" cy="178" r="3.4"/>
+        <circle class="fl pop" cx="188" cy="178" r="3.4"/>
+        <circle class="fl pop" cx="209" cy="178" r="3.4"/>
+        <circle class="fl pop" cx="230" cy="178" r="3.4"/>
+        <circle class="fl pop" cx="251" cy="178" r="3.4"/>
+        <circle class="fl pop" cx="272" cy="178" r="3.4"/>
+        <circle class="fl pop" cx="20" cy="200" r="3.4"/>
+        <circle class="fl pop" cx="41" cy="200" r="3.4"/>
+        <circle class="fl pop" cx="62" cy="200" r="3.4"/>
+        <circle class="fl pop" cx="83" cy="200" r="3.4"/>
+        <circle class="fl pop" cx="104" cy="200" r="3.4"/>
+        <circle class="fl pop" cx="125" cy="200" r="3.4"/>
+        <circle class="fl pop" cx="146" cy="200" r="3.4"/>
+        <circle class="fl pop" cx="167" cy="200" r="3.4"/>
+        <circle class="fl pop" cx="188" cy="200" r="3.4"/>
+        <circle class="fl pop" cx="209" cy="200" r="3.4"/>
+        <circle class="fl pop" cx="230" cy="200" r="3.4"/>
+        <circle class="fl pop" cx="251" cy="200" r="3.4"/>
+        <circle class="fl pop" cx="272" cy="200" r="3.4"/>
+        <circle class="fl pop" cx="20" cy="222" r="3.4"/>
+        <circle class="fl pop" cx="41" cy="222" r="3.4"/>
+        <circle class="fl pop" cx="62" cy="222" r="3.4"/>
+        <circle class="fl pop" cx="83" cy="222" r="3.4"/>
+        <circle class="fl pop" cx="104" cy="222" r="3.4"/>
+        <circle class="fl pop" cx="125" cy="222" r="3.4"/>
+        <circle class="fl pop" cx="146" cy="222" r="3.4"/>
+        <circle class="fl pop" cx="167" cy="222" r="3.4"/>
+        <circle class="fl pop" cx="188" cy="222" r="3.4"/>
+        <circle class="fl pop" cx="209" cy="222" r="3.4"/>
+        <circle class="fl pop" cx="230" cy="222" r="3.4"/>
+        <circle class="fl pop" cx="251" cy="222" r="3.4"/>
+        <circle class="fl pop" cx="272" cy="222" r="3.4"/>
+        <circle class="fl pop" cx="20" cy="244" r="3.4"/>
+        <circle class="fl pop" cx="41" cy="244" r="3.4"/>
+        <circle class="fl pop" cx="62" cy="244" r="3.4"/>
+        <circle class="fl pop" cx="83" cy="244" r="3.4"/>
+        <circle class="fl pop" cx="104" cy="244" r="3.4"/>
+        <circle class="fl pop" cx="125" cy="244" r="3.4"/>
+        <circle class="fl pop" cx="146" cy="244" r="3.4"/>
+        <circle class="fl pop" cx="167" cy="244" r="3.4"/>
+        <circle class="fl pop" cx="188" cy="244" r="3.4"/>
+        <circle class="fl pop" cx="209" cy="244" r="3.4"/>
+        <circle class="fl pop" cx="230" cy="244" r="3.4"/>
+        <circle class="fl pop" cx="251" cy="244" r="3.4"/>
+        <circle class="fl pop" cx="272" cy="244" r="3.4"/>
+
+        <text class="cap pop" x="12" y="274">ТЫСЯЧА ПОД ПОРОГОМ</text>
+        <text class="cap hot pop" x="272" y="274">НЕ СУММА, А МЕСТО</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- МАСШТАБ -->
+  <section class="block">
     <div class="copy">
       <div class="tag rv">Масштаб</div>
       <h2 class="rv">Ничто другое не добавляет столько</h2>
